@@ -1,0 +1,8 @@
+{
+	"solidity.remappings": [
+		"@openzeppelin/=/Users/narasimha-v/.brownie/packages/OpenZeppelin/openzeppelin-contracts@4.2.0",
+		"@chainlink/=/Users/narasimha-v/.brownie/packages/smartcontractkit/chainlink-brownie-contracts@0.2.1"
+	],
+	"python.formatting.provider": "black",
+	"python.formatting.blackPath": "/opt/homebrew/bin/black"
+}
