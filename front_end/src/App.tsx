@@ -1,6 +1,7 @@
+import { Container } from '@material-ui/core';
 import { DAppProvider, Kovan } from '@usedapp/core';
 import React from 'react';
-import { Header } from './components';
+import { Header, Main } from './components';
 
 function App() {
 	return (
@@ -13,6 +14,9 @@ function App() {
 				}
 			}}>
 			<Header />
+			<Container maxWidth='md'>
+				<Main />
+			</Container>
 		</DAppProvider>
 	);
 }

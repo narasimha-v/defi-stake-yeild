@@ -1,3 +1,8 @@
+import json
+import os
+import shutil
+
+import yaml
 from brownie import DappToken, TokenFarm, config, network  # type: ignore
 
 from scripts.helpful_scripts import get_account, get_contract
@@ -17,7 +22,7 @@ def add_allowed_tokens(token_farm, allowed_tokens_dict, account):
     return token_farm
 
 
-def deploy_token_farm_and_dapp_token():
+def deploy_token_farm_and_dapp_token(should_update_front_end=False):
     account = get_account()
     dapp_token = DappToken.deploy({"from": account})
     token_farm = TokenFarm.deploy(
@@ -37,8 +42,28 @@ def deploy_token_farm_and_dapp_token():
         weth_token: get_contract("eth_usd_price_feed"),
     }
     add_allowed_tokens(token_farm, allowed_tokens_dict, account)
+    if should_update_front_end:
+        update_front_end()
     return token_farm, dapp_token
 
 
+def copy_folders_to_front_end(src, dest):
+    if os.path.exists(dest):
+        shutil.rmtree(dest)
+    shutil.copytree(src, dest)
+
+
+def update_front_end():
+    # Send the build folder
+    copy_folders_to_front_end("./build", "./front_end/src/chain-info")
+
+    # Sending the front end our config in JSON format
+    with open("brownie-config.yaml", "r") as brownie_config:
+        config_dict = yaml.load(brownie_config, Loader=yaml.FullLoader)
+        with open("./front_end/src/brownie-config.json", "w") as brownie_config_json:
+            json.dump(config_dict, brownie_config_json)
+    print("Front end updated!")
+
+
 def main():
-    deploy_token_farm_and_dapp_token()
+    deploy_token_farm_and_dapp_token(should_update_front_end=True)
