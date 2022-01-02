@@ -2,6 +2,7 @@ import { Box, makeStyles, Tab } from '@material-ui/core';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import React, { useState } from 'react';
 import { Token } from '../Main';
+import { StakeForm } from './StakeForm';
 import { WalletBalance } from './WalletBalance';
 
 interface YourWalletProps {
@@ -49,6 +50,7 @@ export const YourWallet = ({ supportedTokens }: YourWalletProps) => {
 							<TabPanel value={index.toString()} key={index}>
 								<div className={classes.tabContent}>
 									<WalletBalance token={supportedTokens[selectedTokenIndex]} />
+									<StakeForm token={supportedTokens[selectedTokenIndex]} />
 								</div>
 							</TabPanel>
 						);
